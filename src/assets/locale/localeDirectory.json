@@ -1,0 +1,58 @@
+{
+  "de":{
+    "commons": {
+      "language": "Sprache",
+      "clear": "Löschen",
+      "search": "Suche",
+      "selectOne": "Wähle eins"
+    },
+    "navigation": {
+      "home": "HomeDE",
+      "monster": "MonsterDE"
+    },
+    "monsters": {
+      "moreInformation": "Mehr Infos",
+      "notFound": "Keine Monster gefunden",
+      "searchByName": "Suche nach Name",
+      "small": "Klein",
+      "large": "Gross",
+      "table": {
+        "name": "Name",
+        "size": "Grösse",
+        "fire": "Feuer",
+        "water": "Wasser",
+        "ice": "Eis",
+        "thunder": "Donner",
+        "dragon": "Drache"
+      }
+    }
+  },
+  "en": {
+    "commons": {
+      "language": "Language",
+      "clear": "Clear",
+      "search": "Search",
+      "selectOne": "Select one"
+    },
+    "navigation": {
+      "home": "HomeEN",
+      "monster": "MonsterEN"
+    },
+    "monsters": {
+      "moreInformation": "More Information",
+      "notFound": "No monsters found",
+      "searchByName": "Search by name",
+      "small": "Small",
+      "large": "Large",
+      "table": {
+        "name": "Name",
+        "size": "Size",
+        "fire": "Fire",
+        "water": "Water",
+        "ice": "Ice",
+        "thunder": "Thunder",
+        "dragon": "Dragon"
+      }
+    }
+  }
+}

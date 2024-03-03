@@ -1,0 +1,34 @@
+// Composables
+import { createRouter, createWebHistory } from 'vue-router';
+
+const routes = [
+  {
+    name: 'Home',
+    label: 'navigation.home',
+    path: '/',
+    component: () => import('@/pages/Home.vue'),
+    icon: 'mdi-home',
+  },
+  {
+    name: 'Monster',
+    label: 'navigation.monster',
+    path: '/monster',
+    component: () => import('@/pages/MonsterPage.vue'),
+    icon: 'mdi-dice-1'
+  },
+  {
+    name: 'Page2',
+    path: '/page2',
+    component: () => import('@/pages/Page2.vue'),
+    icon: 'mdi-dice-2'
+  }
+];
+
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
+  routes,
+});
+
+export { routes };
+
+export default router;
