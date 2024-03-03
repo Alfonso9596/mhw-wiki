@@ -38,13 +38,7 @@
     </v-navigation-drawer>
     <v-main class="d-flex align-center justify-center">
       <v-card>
-        <!--<div class="card-header align-center" :style="cardHeaderStyling">
-          <v-card-title>
-            <v-icon v-if="props.icon.startsWith('mdi')" class="card-header__icon" :icon="props.icon" />
-            <span class="card-header__label">{{ t(cardTitle) }}</span>
-          </v-card-title>
-        </div>-->
-        <router-view :style="cardStyling" />
+        <router-view/>
       </v-card>
     </v-main>
   </v-app>
@@ -60,7 +54,6 @@ import { useLocalesStore } from '@/store/locales.store';
 import { getDataLanguages } from './api/networks/locales.network';
 
 const theme = useTheme();
-const currentRoute = useRoute();
 const { locale } = useI18n({ useScope: 'global' });
 const localesStore = useLocalesStore();
 const { t } = useI18n();
@@ -92,36 +85,11 @@ const onSelectedDataLanguage = () => {
   locale.value = state.dataLanguage;
 };
 
-const props = withDefaults(
-  defineProps<{
-    title?: string;
-    icon?: string;
-  }>(),
-  {
-    title: 'Home',
-    icon: 'mdi-circle-slice-6'
-  }
-);
-
-const cardTitle = ref<string>(currentRoute.name as string);
-
 const mainConfig = computed(() => {
   return {
     'dark-background': theme.global.current.value.dark,
     'light-background': !theme.global.current.value.dark
   };
-});
-
-const cardHeaderStyling = computed(() => {
-  return theme.global.current.value.dark
-    ? 'background-color: rgba(109, 109, 109, 0);'
-    : 'background-color: rgba(240, 240, 240, 0.9);'
-});
-
-const cardStyling = computed(() => {
-  return theme.global.current.value.dark
-    ? 'background-color: rgba(109, 109, 109, 0.2);'
-    : 'background-color: rgba(230, 230, 230, 0.3);'
 });
 
 const toggleTheme = () => {
@@ -133,6 +101,7 @@ fetchDataLanguageOptions();
 
 <style scoped lang="scss">
 .v-card {
+  //100vh = full view; 64px = app bar (header); 40px = margins top & bottom
   height: calc(100vh - 64px - 40px);
   top: 0;
   width: calc(100% - 40px);
@@ -160,5 +129,21 @@ fetchDataLanguageOptions();
 }
 .light-background {
   background-color: rgba(255, 255, 255, 0.676);;
+}
+.v-app-bar.v-toolbar {
+  &.v-theme--light {
+    background-color: rgba(229, 229, 229, 0.85);
+  }
+  &.v-theme--dark {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+}
+.v-navigation-drawer {
+  &.v-theme--light {
+    background-color: rgba(229, 229, 229, 0.85);
+  }
+  &.v-theme--dark {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
 }
 </style>

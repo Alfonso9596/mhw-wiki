@@ -3,7 +3,8 @@ import { getParamsFromPath, getPathWithParams, convertParamsToURL } from '@/help
 
 const MONSTER_ENDPOINTS = {
   pageableMonsters: '/api/:lang/monsters',
-  allMonsters: '/api/:lang/monsters/all'
+  allMonsters: '/api/:lang/monsters/all',
+  monsterById: '/api/:lang/monsters/:id'
 };
 
 const getPageableMonsters = async (
@@ -54,5 +55,25 @@ const getAllMonsters = async(
   }
 };
 
-export { getPageableMonsters, getAllMonsters, MONSTER_ENDPOINTS };
+const getMonsterById = async(
+  lang: string,
+  id: string
+) => {
+  try {
+    let path = MONSTER_ENDPOINTS.monsterById;
+    if (getParamsFromPath(path)?.length) {
+      path = getPathWithParams(path, {
+        lang,
+        id
+      });
+    }
+    const response = await http.get(path);
+    return response?.data;
+  } catch(e) {
+    console.error(e);
+    return false;
+  }
+}
+
+export { getPageableMonsters, getAllMonsters, getMonsterById, MONSTER_ENDPOINTS };
 export default { getAllMonsters };

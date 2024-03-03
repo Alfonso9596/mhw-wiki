@@ -16,6 +16,7 @@
       "searchByName": "Suche nach Name",
       "small": "Klein",
       "large": "Gross",
+      "description": "Beschreibung",
       "table": {
         "name": "Name",
         "size": "Grösse",
@@ -44,6 +45,7 @@
       "searchByName": "Search by name",
       "small": "Small",
       "large": "Large",
+      "description": "Description",
       "table": {
         "name": "Name",
         "size": "Size",

@@ -4,7 +4,8 @@ import type { Ref } from 'vue';
 
 export enum MONSTER_KEYS {
   MONSTER_PAGE = "MONSTER_PAGE",
-  MONSTER_PAGE_SIZE = "MONSTER_PAGE_SIZE"
+  MONSTER_PAGE_SIZE = "MONSTER_PAGE_SIZE",
+  MONSTER_SIZE = "MONSTER_SIZE"
 }
 
 export const useMonsterStore = defineStore('monsters', () => {
@@ -26,10 +27,21 @@ export const useMonsterStore = defineStore('monsters', () => {
     monsterPageSize.value = pageSize;
   }
 
+  const monsterSize: Ref<string> = ref(
+    String(localStorage.getItem(MONSTER_KEYS.MONSTER_SIZE) ?? 'large')
+  );
+
+  function setMonsterSize(size: string): void {
+    localStorage.setItem(MONSTER_KEYS.MONSTER_SIZE, size);
+    monsterSize.value = size;
+  }
+
   return {
     monsterPage,
     setMonsterPage,
     monsterPageSize,
-    setMonsterPageSize
+    setMonsterPageSize,
+    monsterSize,
+    setMonsterSize
   }
 })

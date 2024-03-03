@@ -17,9 +17,9 @@ const routes = [
     icon: 'mdi-dice-1'
   },
   {
-    name: 'Page2',
-    path: '/page2',
-    component: () => import('@/pages/Page2.vue'),
+    name: 'MonsterDetail',
+    path: '/monster/:id',
+    component: () => import('@/pages/MonsterDetailPage.vue'),
     icon: 'mdi-dice-2'
   }
 ];

@@ -2,7 +2,7 @@
   <v-app>
     <div class="monsterpage-header pl-xxl-5">
       <v-tabs
-        v-model="selectedSize">
+        v-model="state.monsterSize">
         <v-tab v-for="size in sizes" :key="size.value" :value="size.value">
           {{ t(size.label) }}
         </v-tab>
@@ -27,6 +27,7 @@
           class="ma-2 pa-2 monsterpage-content__container-card"
           max-width="200"
           :key="monster.id"
+          @click="goToMonsterPage(monster)"
         >
           <v-img
             height="200px"
@@ -37,7 +38,7 @@
 
           <v-card-title>{{ monster.name }}</v-card-title>
 
-          <v-card-subtitle class="pb-xxl-4" v-if="selectedSize === 'large'">{{ monster.ecology }}</v-card-subtitle>
+          <v-card-subtitle class="pb-xxl-4" v-if="state.monsterSize === 'large'">{{ monster.ecology }}</v-card-subtitle>
         </v-card>
       </div>
     </div>
@@ -50,6 +51,7 @@ import { useI18n } from 'vue-i18n';
 import { useLocalesStore } from '@/store/locales.store';
 import { useMonsterStore } from '@/store/monsters.store';
 import { getAllMonsters } from '@/api/networks/monsters.network';
+import router from '@/router';
 
 const { t } = useI18n();
 const localesStore = useLocalesStore();
@@ -62,17 +64,18 @@ const state = reactive<{
   totalRecords: number | undefined;
   loading: boolean;
   dataLanguage: any;
+  monsterSize: string;
 }>({
   monsterList: [],
   page: monstersStore.monsterPage,
   pageSize: monstersStore.monsterPageSize,
   totalRecords: undefined,
   loading: false,
-  dataLanguage: computed(() => localesStore.dataLanguage)
+  dataLanguage: computed(() => localesStore.dataLanguage) || 'en',
+  monsterSize: monstersStore.monsterSize || 'large'
 });
 
 const search = ref<string>('');
-const selectedSize = ref<string>('small');
 
 const sizes = [
   {
@@ -126,7 +129,7 @@ const pageParams = {
 const fetchMonstersBySize = async() => {
   state.loading = true;
   const params = {
-    size: selectedSize.value
+    size: state.monsterSize
   };
   const response = await getAllMonsters(state.dataLanguage, params) || {};
   state.monsterList = response;
@@ -138,9 +141,14 @@ const filteredMonsters = () => {
     return state.monsterList;
   } else {
     return state.monsterList.filter((monster) => {
-      return monster.name.toLowerCase().indexOf(search.value.toLowerCase()) >= 0;
+      return monster.name.toLowerCase().indexOf(search.value.toLowerCase()) >= 0 ||
+        monster.ecology.toLowerCase().indexOf(search.value.toLocaleLowerCase()) >= 0;
     });
   }
+};
+
+const goToMonsterPage = (monster: any) => {
+  router.push('/monster/' + monster.id);
 };
 
 watch(
@@ -151,12 +159,14 @@ watch(
 );
 
 watch(
-  () => selectedSize.value,
+  () => state.monsterSize,
   () => {
     fetchMonstersBySize();
+    monstersStore.setMonsterSize(state.monsterSize);
     search.value = '';
   }
 );
+
 fetchMonstersBySize();
 </script>
 
@@ -169,6 +179,7 @@ fetchMonstersBySize();
 }
 .monsterpage-content {
   scrollbar-width: none;
+  //100vh = full view; 64px = app bar (header); 40px = margins top & bottom; 60px = monsterpage-header
   height: calc(100vh - 64px - 40px - 60px);
 
   &__container {
